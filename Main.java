@@ -131,8 +131,33 @@ public class Main {
         return total;
     }
 
-    public static int bestDayOfMonth(int month) { 
-        return 1234; 
+    public static int bestDayOfMonth(int month) {
+
+        //checking for invalid month
+        if (!(month >=0 && month<=11)) {
+            System.out.println("Invalid month --> bestDayOfMonth"); //for testing
+            return -1;
+        }
+
+        int bestDayIndex = 0 ; //initialize the variable
+        int bestDayProfit = 0;
+
+        for (int dayIndex=0;dayIndex<DAYS;dayIndex++){ //careful its 0-27
+
+            int totalProfit = 0;
+
+            for (int i=0;i<COMMS;i++){
+                totalProfit += dataArray[month][dayIndex][i];
+            }
+
+            if (totalProfit > bestDayProfit) {
+                bestDayProfit = totalProfit;
+                bestDayIndex = dayIndex;
+            }
+
+        }
+        System.out.println("bestDayProfit: " + bestDayProfit + " bestDayIndex(+1): " + (bestDayIndex+1));
+        return bestDayIndex + 1; //now its 1-28 and in correct day range
     }
     
     public static String bestMonthForCommodity(String comm) { 
@@ -174,5 +199,6 @@ public class Main {
         //mostProfitableCommodityInMonth(9);
         //totalProfitOnDay(1,27);
         //commodityProfitInRange("silver",5, 10);
+        //bestDayOfMonth(0);
     }
 }
