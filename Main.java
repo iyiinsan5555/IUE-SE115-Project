@@ -315,8 +315,42 @@ public class Main {
 
     }
     
-    public static String bestWeekOfMonth(int month) { 
-        return "DUMMY"; 
+    public static String bestWeekOfMonth(int month) {
+
+        //checking if invalid month
+        if (!(month >=0 && month<=11)) {
+            System.out.println("Invalid month --> bestWeekOfMonth"); //  for testing
+            return "INVALID_MONTH";
+        }
+
+        int[] weeksTotalProfit = new int[4];
+
+        for (int dayIndex=0;dayIndex<DAYS;dayIndex++){
+
+            if ((dayIndex+1) >= 1 && (dayIndex+1) <= 7){ //week one
+                weeksTotalProfit[0] += totalProfitOnDay(month,(dayIndex+1));
+            } else if ((dayIndex+1) >=8 && (dayIndex+1) <=14) { //week two
+                weeksTotalProfit[1] += totalProfitOnDay(month,(dayIndex+1));
+            } else if ((dayIndex+1) >=15 && (dayIndex+1 <=21)) { //week three
+                weeksTotalProfit[2] += totalProfitOnDay(month,(dayIndex+1));
+            } else if ((dayIndex+1) >=22 && (dayIndex+1) <= 28) { //week four
+                weeksTotalProfit[3] += totalProfitOnDay(month,(dayIndex+1));
+            }
+        }
+
+        //Choosing the best profit week index
+        int bestProfitWeekTotal = Integer.MIN_VALUE;
+        int bestProfitWeekIndex = 0;
+        for (int i=0;i<weeksTotalProfit.length;i++){
+            if (weeksTotalProfit[i] > bestProfitWeekTotal) {
+                bestProfitWeekTotal = weeksTotalProfit[i];
+                bestProfitWeekIndex = i;
+            }
+        }
+
+        String returnString = "Week " + bestProfitWeekIndex;
+        System.out.println(returnString);
+        return returnString;
     }
 
     public static int findCommodityIndex(String commodityName){
@@ -340,5 +374,6 @@ public class Main {
         //daysAboveThreshold("Silver", -55555);
         //biggestDailySwing(2);
         //System.out.println(compareTwoCommodities("Oil", "Oil"));
+        //bestWeekOfMonth(7);
     }
 }
