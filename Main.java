@@ -283,8 +283,36 @@ public class Main {
         return biggestDifference;
     }
     
-    public static String compareTwoCommodities(String c1, String c2) { 
-        return "DUMMY is better by 1234"; 
+    public static String compareTwoCommodities(String c1, String c2) {
+
+        int totalC1 = 0;
+        int totalC2 = 0;
+
+        int indexC1 = findCommodityIndex(c1);
+        int indexC2 = findCommodityIndex(c2);
+
+        if (indexC1 == -1 || indexC2 == -1) {
+            System.out.println("Invalid commodity name --> compareTwoCommodities");
+            return "INVALID_COMMODITY";
+        }
+
+        for (int monthIndex=0;monthIndex<MONTHS;monthIndex++){
+            for (int dayIndex=0;dayIndex<DAYS;dayIndex++){
+
+                totalC1 += dataArray[monthIndex][dayIndex][indexC1];
+                totalC2 += dataArray[monthIndex][dayIndex][indexC2];
+
+            }
+        }
+
+        if (totalC1 > totalC2) {
+            return "C1 is better by " + (totalC1 - totalC2);
+        } else if (totalC2 > totalC1) {
+            return "C2 is better by " + (totalC2 - totalC1);
+        } else {
+            return "Equal";
+        }
+
     }
     
     public static String bestWeekOfMonth(int month) { 
@@ -311,5 +339,6 @@ public class Main {
         //consecutiveLossDays("Silver");
         //daysAboveThreshold("Silver", -55555);
         //biggestDailySwing(2);
+        //System.out.println(compareTwoCommodities("Oil", "Oil"));
     }
 }
