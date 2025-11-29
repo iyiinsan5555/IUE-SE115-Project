@@ -160,8 +160,34 @@ public class Main {
         return bestDayIndex + 1; //now its 1-28 and in correct day range
     }
     
-    public static String bestMonthForCommodity(String comm) { 
-        return "DUMMY"; 
+    public static String bestMonthForCommodity(String comm) {
+
+        //checking for invalid commodity name
+        if (findCommodityIndex(comm) == -1) {
+            System.out.println("Invalid commodity --> bestMonthForCommodity"); //for testing
+            return "INVALID_COMMODITY";
+        }
+
+        int bestMonthlyComm = Integer.MIN_VALUE;
+        int bestMonthIndex = -1;
+        int commodityIndex = findCommodityIndex(comm);
+
+        for (int monthIndex=0;monthIndex<MONTHS;monthIndex++){
+
+            int totalMonthlyComm = 0;
+
+            for (int dayIndex=0;dayIndex<DAYS;dayIndex++){
+                totalMonthlyComm += dataArray[monthIndex][dayIndex][commodityIndex];
+            }
+
+            if (totalMonthlyComm > bestMonthlyComm){
+                bestMonthlyComm = totalMonthlyComm;
+                bestMonthIndex = monthIndex;
+            }
+
+        }
+        System.out.println(months[bestMonthIndex]);
+        return months[bestMonthIndex];
     }
 
     public static int consecutiveLossDays(String comm) { 
@@ -200,5 +226,7 @@ public class Main {
         //totalProfitOnDay(1,27);
         //commodityProfitInRange("silver",5, 10);
         //bestDayOfMonth(0);
+        //bestMonthForCommodity("Copper");
+
     }
 }
