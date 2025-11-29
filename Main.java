@@ -348,7 +348,7 @@ public class Main {
             }
         }
 
-        String returnString = "Week " + bestProfitWeekIndex;
+        String returnString = "Week " + (bestProfitWeekIndex+1);
         System.out.println(returnString);
         return returnString;
     }
