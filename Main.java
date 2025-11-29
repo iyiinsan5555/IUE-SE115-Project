@@ -250,8 +250,37 @@ public class Main {
         return overThreshold;
     }
 
-    public static int biggestDailySwing(int month) { 
-        return 1234; 
+    public static int biggestDailySwing(int month) {
+
+        //checking if invalid month
+        if (!(month >=0 && month<=11)) {
+            System.out.println("Invalid month --> biggestDailySwing"); //  for testing
+            return -99999;
+        }
+
+        boolean isFirstDay = true;
+        int formerDayProfit = totalProfitOnDay(month, 1); //first day
+        int difference;
+        int biggestDifference = 0;
+
+        for (int dayIndex=0;dayIndex<DAYS;dayIndex++){
+
+            if (isFirstDay) {
+                isFirstDay = false;
+                continue;
+            }
+
+            int dailyProfit = totalProfitOnDay(month, (dayIndex+1)); //gets days between 1-28
+
+            difference = Math.abs(formerDayProfit - dailyProfit);
+            if (difference > biggestDifference) {
+                biggestDifference = difference;
+            }
+
+            formerDayProfit = dailyProfit;
+        }
+        System.out.println("Biggest Difference: " + biggestDifference); // for testing
+        return biggestDifference;
     }
     
     public static String compareTwoCommodities(String c1, String c2) { 
@@ -281,5 +310,6 @@ public class Main {
         //bestMonthForCommodity("Copper");
         //consecutiveLossDays("Silver");
         //daysAboveThreshold("Silver", -55555);
+        //biggestDailySwing(2);
     }
 }
