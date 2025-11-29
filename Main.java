@@ -225,8 +225,29 @@ public class Main {
     }
     
     public static int daysAboveThreshold(String comm, int threshold) {
+        int commodityIndex = findCommodityIndex(comm);
 
-        return 1234; 
+        //checking for invalid commodity
+        if (commodityIndex == -1) {
+            System.out.println("Invalid commodity --> consecutiveLossDays"); //for testing
+            return -1;
+        }
+
+        int overThreshold = 0;
+
+        for (int monthIndex=0;monthIndex<MONTHS;monthIndex++){
+            for (int dayIndex=0;dayIndex<DAYS;dayIndex++){
+
+                int dailyProfitComm = dataArray[monthIndex][dayIndex][commodityIndex]; //as day, it gets 1-28
+
+                if (dailyProfitComm > threshold) {
+                    overThreshold += 1;
+                }
+
+            }
+        }
+        System.out.println(comm + " over threshold: " + overThreshold);
+        return overThreshold;
     }
 
     public static int biggestDailySwing(int month) { 
@@ -258,6 +279,7 @@ public class Main {
         //commodityProfitInRange("silver",5, 10);
         //bestDayOfMonth(0);
         //bestMonthForCommodity("Copper");
-        consecutiveLossDays("Silver");
+        //consecutiveLossDays("Silver");
+        //daysAboveThreshold("Silver", -55555);
     }
 }
