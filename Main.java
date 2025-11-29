@@ -113,7 +113,22 @@ public class Main {
     }
 
     public static int commodityProfitInRange(String commodity, int from, int to) {
-        return 1234;
+
+        //checking for invalid cases
+        if (findCommodityIndex(commodity) == -1 || from < 1 || to < 1 || to > 28 || from > to){
+            System.out.println("Invalid input --> commodityProfitInRange"); // for testing
+            return -99999;
+        }
+
+        //Since I can choose any month I am going to choose index 0
+        int commodityIndex = findCommodityIndex(commodity);
+        int total = 0;
+
+        for (int dayIndex=from;dayIndex<=to;dayIndex++){ //both is inclusive
+            total += dataArray[0][dayIndex-1][commodityIndex]; //I am using -1 cuz my arrays indexes are 0-27
+        }
+        System.out.println(total);
+        return total;
     }
 
     public static int bestDayOfMonth(int month) { 
@@ -144,10 +159,20 @@ public class Main {
         return "DUMMY"; 
     }
 
+    public static int findCommodityIndex(String commodityName){
+        for (int i=0;i<COMMS;i++){
+            if(commodities[i].equals(commodityName)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         loadData();
         System.out.println("Data loaded – ready for queries");
         //mostProfitableCommodityInMonth(9);
         //totalProfitOnDay(1,27);
+        //commodityProfitInRange("silver",5, 10);
     }
 }
