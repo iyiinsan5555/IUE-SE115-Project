@@ -190,11 +190,42 @@ public class Main {
         return months[bestMonthIndex];
     }
 
-    public static int consecutiveLossDays(String comm) { 
-        return 1234; 
+    public static int consecutiveLossDays(String comm) {
+
+        int commodityIndex = findCommodityIndex(comm);
+
+        //checking for invalid commodity
+        if (commodityIndex == -1) {
+            System.out.println("Invalid commodity --> consecutiveLossDays"); //for testing
+            return -1;
+        }
+
+        int longestStreak = 0;
+        int currentStreak = 0;
+
+        for (int monthIndex=0;monthIndex<MONTHS;monthIndex++){
+            for (int dayIndex=0;dayIndex<DAYS;dayIndex++){
+
+                int dailyProfitComm = dataArray[monthIndex][dayIndex][commodityIndex]; //as day, it gets 1-28
+
+                if (dailyProfitComm < 0){
+                    currentStreak += 1;
+
+                    if (currentStreak > longestStreak) {
+                        longestStreak = currentStreak;
+                    }
+                } else {
+                    currentStreak = 0;
+                }
+
+            }
+        }
+        System.out.println("longest streak: " + longestStreak);
+        return longestStreak;
     }
     
-    public static int daysAboveThreshold(String comm, int threshold) { 
+    public static int daysAboveThreshold(String comm, int threshold) {
+
         return 1234; 
     }
 
@@ -227,6 +258,6 @@ public class Main {
         //commodityProfitInRange("silver",5, 10);
         //bestDayOfMonth(0);
         //bestMonthForCommodity("Copper");
-
+        consecutiveLossDays("Silver");
     }
 }
