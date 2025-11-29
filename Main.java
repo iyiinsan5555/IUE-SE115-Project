@@ -95,7 +95,21 @@ public class Main {
     }
 
     public static int totalProfitOnDay(int month, int day) {
-        return 1234;
+        //when accessing data --> (day-1)
+
+        //checking for invalid day or month
+        if (!(month>=0 && month<=11 && day>=1 && day<=28)){
+            System.out.println("Invalid day or month"); //for testing
+            return -99999;
+        }
+
+        int totalProfit = 0;
+
+        for (int i=0;i<COMMS;i++){
+            totalProfit += dataArray[month][day-1][i];
+        }
+        System.out.println(totalProfit);
+        return totalProfit;
     }
 
     public static int commodityProfitInRange(String commodity, int from, int to) {
@@ -133,6 +147,7 @@ public class Main {
     public static void main(String[] args) {
         loadData();
         System.out.println("Data loaded – ready for queries");
-        mostProfitableCommodityInMonth(9);
+        //mostProfitableCommodityInMonth(9);
+        //totalProfitOnDay(1,27);
     }
 }
