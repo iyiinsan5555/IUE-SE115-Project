@@ -52,9 +52,46 @@ public class Main {
     // ======== 10 REQUIRED METHODS (Students fill these) ========
 
     public static String mostProfitableCommodityInMonth(int month) {
-        
 
-        return "DUMMY"; 
+        //Checking for invalid month
+        if (!(month>=0 && month <=11)){
+            //for testing
+            System.out.println("INVALID_MONTH");
+            return "INVALID_MONTH";
+        }
+
+
+        int[][] monthArray = dataArray[month];
+        //array[28][5] --> 0-27, 0-4
+
+        int[] totalProfitComms = new int[5];
+
+        for (int dayIndex = 0; dayIndex<DAYS; dayIndex++) { //day loop  0-27
+            for (int commsIndex=0; commsIndex<COMMS; commsIndex++) { //comms loop  0-4
+
+                totalProfitComms[commsIndex] += dataArray[month][dayIndex][commsIndex];
+
+            }
+        }
+
+        int mostProfitableIndex = 0;
+        for (int i=0; i<totalProfitComms.length; i++) {
+            if (totalProfitComms[mostProfitableIndex] < totalProfitComms[i]) {
+                mostProfitableIndex = i;
+            }
+        }
+        //For testing
+        System.out.println("mostProfitableIndex: " + mostProfitableIndex);
+        System.out.println(totalProfitComms[0]);
+        System.out.println(totalProfitComms[1]);
+        System.out.println(totalProfitComms[2]);
+        System.out.println(totalProfitComms[3]);
+        System.out.println(totalProfitComms[4]);
+
+        String returnString = commodities[mostProfitableIndex] + " " + totalProfitComms[mostProfitableIndex];
+        System.out.println(returnString);
+
+        return returnString;
     }
 
     public static int totalProfitOnDay(int month, int day) {
@@ -96,6 +133,6 @@ public class Main {
     public static void main(String[] args) {
         loadData();
         System.out.println("Data loaded – ready for queries");
-        mostProfitableCommodityInMonth(2);
+        mostProfitableCommodityInMonth(9);
     }
 }
