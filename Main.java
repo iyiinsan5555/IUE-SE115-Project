@@ -124,8 +124,10 @@ public class Main {
         int commodityIndex = findCommodityIndex(commodity);
         int total = 0;
 
-        for (int dayIndex=from;dayIndex<=to;dayIndex++){ //both is inclusive
-            total += dataArray[0][dayIndex-1][commodityIndex]; //I am using -1 cuz my arrays indexes are 0-27
+        for (int monthIndex=0;monthIndex<MONTHS;monthIndex++){
+            for (int dayIndex=from;dayIndex<=to;dayIndex++){ //both is inclusive
+                total += dataArray[monthIndex][dayIndex-1][commodityIndex]; //I am using -1 cuz my arrays indexes are 0-27
+            }
         }
         System.out.println(total);
         return total;
@@ -140,7 +142,7 @@ public class Main {
         }
 
         int bestDayIndex = 0 ; //initialize the variable
-        int bestDayProfit = 0;
+        int bestDayProfit = Integer.MIN_VALUE;
 
         for (int dayIndex=0;dayIndex<DAYS;dayIndex++){ //careful its 0-27
 
@@ -259,9 +261,14 @@ public class Main {
         }
 
         boolean isFirstDay = true;
-        int formerDayProfit = totalProfitOnDay(month, 1); //first day
         int difference;
         int biggestDifference = 0;
+        int currentDayProfit = 0;
+
+        int formerDayProfit = 0; //first day
+        for (int commIndex = 0; commIndex < COMMS; commIndex++) {
+            formerDayProfit += dataArray[month][0][commIndex];
+        }
 
         for (int dayIndex=0;dayIndex<DAYS;dayIndex++){
 
@@ -270,14 +277,17 @@ public class Main {
                 continue;
             }
 
-            int dailyProfit = totalProfitOnDay(month, (dayIndex+1)); //gets days between 1-28
+            currentDayProfit = 0;
+            for (int commIndex = 0; commIndex < COMMS; commIndex++) {
+                currentDayProfit += dataArray[month][dayIndex][commIndex];
+            }
 
-            difference = Math.abs(formerDayProfit - dailyProfit);
+            difference = Math.abs(formerDayProfit - currentDayProfit);
             if (difference > biggestDifference) {
                 biggestDifference = difference;
             }
 
-            formerDayProfit = dailyProfit;
+            formerDayProfit = currentDayProfit;
         }
         System.out.println("Biggest Difference: " + biggestDifference); // for testing
         return biggestDifference;
@@ -327,15 +337,14 @@ public class Main {
 
         for (int dayIndex=0;dayIndex<DAYS;dayIndex++){
 
-            if ((dayIndex+1) >= 1 && (dayIndex+1) <= 7){ //week one
-                weeksTotalProfit[0] += totalProfitOnDay(month,(dayIndex+1));
-            } else if ((dayIndex+1) >=8 && (dayIndex+1) <=14) { //week two
-                weeksTotalProfit[1] += totalProfitOnDay(month,(dayIndex+1));
-            } else if ((dayIndex+1) >=15 && (dayIndex+1 <=21)) { //week three
-                weeksTotalProfit[2] += totalProfitOnDay(month,(dayIndex+1));
-            } else if ((dayIndex+1) >=22 && (dayIndex+1) <= 28) { //week four
-                weeksTotalProfit[3] += totalProfitOnDay(month,(dayIndex+1));
+            int totalProfitDaily = 0;
+            for (int commIndex = 0; commIndex < COMMS; commIndex++) {
+                totalProfitDaily += dataArray[month][dayIndex][commIndex];
             }
+
+            int weekIndex = dayIndex / 7;
+            weeksTotalProfit[weekIndex] += totalProfitDaily;
+
         }
 
         //Choosing the best profit week index
@@ -374,6 +383,6 @@ public class Main {
         //daysAboveThreshold("Silver", -55555);
         //biggestDailySwing(2);
         //System.out.println(compareTwoCommodities("Oil", "Oil"));
-        //bestWeekOfMonth(7);
+        //bestWeekOfMonth(0);
     }
 }
